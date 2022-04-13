@@ -1,0 +1,49 @@
+//Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
+
+//Setup
+
+//define the interface for the function that implements our solution:
+
+fn: (value:string) => boolean;
+
+//test function: 
+
+function testFunction(input: string, expectedValue: boolean, fn: (value: string) => boolean) {
+    const result = fn(input);
+    const assertionString = result === expectedValue ? '\u2713' : `\u2717 expected ${expectedValue}`;
+    const color = result === expectedValue ? '\x1b[32m' : '\x1b[31m';
+    console.log(color, `'${input}' => ${result} ${assertionString}`);
+}
+
+
+//solution 1: adds data structures
+
+function hasUnique (str: string) : boolean {
+  const charSet = [...new Set(str.split(""))];
+  
+  return str.length === charSet.length;
+}
+
+// console.log('-----------------------------------');
+// testFunction('test', false, hasUnique);
+// testFunction('abc', true, hasUnique);
+// testFunction('all', false, hasUnique);
+// testFunction('', true, hasUnique);
+
+
+//solution 2: 1 data structure, O(logn)
+function hasUnique2 (str: string) : boolean {
+  const strSort = str.split("").sort();
+  for(let i=0; i<strSort.length; i++){
+    if(strSort[i] === strSort[i+1]){
+      return false;
+    }
+  }
+  return true;
+}
+
+console.log('-----------------------------------');
+testFunction('test', false, hasUnique2);
+testFunction('abc', true, hasUnique2);
+testFunction('all', false, hasUnique2);
+testFunction('', true, hasUnique2);
